@@ -6,9 +6,7 @@
 #include <sys/resource.h>
 #include <sys/ptrace.h>
 
-#include "init.h"
-
-#define MB (1024*1024)
+#include "executor.h"
 
 void die(const char *format, ...) {
     va_list ap;
@@ -88,6 +86,12 @@ int run(struct _init_t *info) {
     if (1) {
         limit.rlim_cur = limit.rlim_max = 1; // Num of proc is always limited to 1
         r = setrlimit(RLIMIT_NOFILE, &limit);
+        if (r<0) die("Cage: setrlimit(%d, %d) failed.", RLIMIT_NPROC, limit.rlim_max);
+    }
+
+    if (1) {
+        limit.rlim_cur = limit.rlim_max = 0;
+        r = setrlimit(RLIMIT_CORE, &limit);
         if (r<0) die("Cage: setrlimit(%d, %d) failed.", RLIMIT_NPROC, limit.rlim_max);
     }
 

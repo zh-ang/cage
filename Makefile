@@ -1,6 +1,6 @@
 
-all : init.o main.o executor.o watcher.o
-	gcc -o cage init.o main.o executor.o watcher.o
+all : init.o main.o executor.o tracer.o
+	gcc -o cage init.o main.o executor.o tracer.o
 
 init.o : init.c
 	gcc -c init.c
@@ -8,8 +8,8 @@ init.o : init.c
 main.o : init.h main.c
 	gcc -c main.c
 
-watcher.o : watcher.c
-	gcc -c watcher.c
+tracer.o : tracer.c
+	gcc -c tracer.c
 
 executor.o : executor.c
 	gcc -c executor.c
